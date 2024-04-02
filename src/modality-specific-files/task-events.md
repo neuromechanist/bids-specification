@@ -185,8 +185,38 @@ The stimulus files can be added in a `/stimuli` directory
 `stim_file` column in `events.tsv` mentioning which stimulus file was used
 for a given event,
 
-There are no restrictions on the file formats of the stimuli files,
-but they should be stored in the `/stimuli` directory.
+It is RECOMMENDED to include a `stimuli.tsv` table containing a list of the stimuli present in the `/stimuli` directory.
+The `stimuli.tsv` would list the stimulus files as rows and provide more information about the stimulus files as columns, such as their types (for example, still images, movies, audio, multi-channel audio, etc), text descriptions, and optional columns including references, relevant HED tags, etc.
+Annotations for the still stimulus files can be properly held in `stimuli.tsv` as specific columns. The `stimuli.tsv` file can be accompanied by a `stimuli.json` file describing the columns in detail.
+The `stimuli.tsv` MUST include the following columns:
+
+{{ MACROS___make_columns_table(
+   {
+      "stim_file": ("REQUIRED", "There are no restrictions on the file formats of the stimuli files, but they should be stored in the `/stimuli` directory (under the root directory of the dataset; with OPTIONAL subdirectories). The values under the stim_file column correspond to a path relative to `/stimuli`. For example `images/cat03.jpg` will be translated to `/stimuli/images/cat03.jpg`. This column MUST appear as the first column in the file."),
+      "type": ("REQUIRED", "String. One of `movie`, `still_image`, `audio`, `annotation`, or Freeform.")
+   }
+) }}
+
+
+### Time-varying stimuli
+A single-line annotation in a `stimuli.tsv` column would be sufficient for the still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
+
+The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus.tsv`, which would hold the annotations for timepoints of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and REQUIRED and OPTIONAL columns of the `events.tsv` file MAY be accompanied by a JSON file describing the columns in detail.
+
+An exmaplry `stimuli.tsv` file is shown below:
+
+| stim_file                            | type        | NSD_id | COCO_id | first_COCO_description                         | HED                                                                                                                                                                                            |
+| ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| nsd03050.png                         | still_image | 3050   | 262414  | a person standing on a surfboard riding a wave | (Foreground-view, ((Item-count/1, ((Human, Human-agent), Body, Male, Agent-trait/Adolescent)), (Play, (Item-count/1, Man-made-object)))), (Background-view, (Outdoors, Natural-feature/Ocean)) |
+| the_present_movie.mp4                | movie       | n/a    | n/a     | n/a                                            | Visual-presentation, Movie                                                                                                                                                                     |
+| the_present_stimulus-LogLumRatio.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+
+### Relation to  `events.tsv` and `stim.tsv.gz` files
+The annotations within the `stimuli.tsv` and `stimulus.tsv` files can be expanded in the `events.tsv` files using remodelers when the file name is mentioned in the `stim_file` column.
+
+While the contents of `stimuli.tsv` and `stimulus.tsv` can also be included in the individual `events.tsv` files, such implementation unnecessarily replicates annotations across subjects, modalities, tasks, and runs. Also, using `stimuli.tsv` and `stimulus.tsv` increases the possibility of both (1) reusing the same annotations in other studies and (2) reusing the dataset with alternative annotations - by merely changing one file.
+
+Another advantage of top-level `stimuli.tsv` and `stimulus.tsv` is avoiding the need to create and edit large `events.tsv` (and `events.json`) files for datasets that use complex stimuli, such as movies. By avoiding the need to include annotations in every data folder, the remodeler software will retrieve these annotations housed in the single top-level `/stimuli` directory during the analysis. This increasex the readability of all the data level  `events.tsv` and `events.json` files and avoid using fixed, lengthy annotations to annotate every instance of a constant stimulus. For large, standard stimulus sets, such as the [Natural Scene Dataset](https://naturalscenesdataset.org) or the immense [COCO image dataset](https://cocodataset.org/), holding a list of images used across the BIDS dataset in the top-level `/stimuli` directory, with their complete annotations, would give a useful cross-reference for debugging and design of analyses.
 
 ### Stimuli databases
 
