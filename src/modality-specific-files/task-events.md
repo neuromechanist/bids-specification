@@ -183,7 +183,7 @@ This can be done by using a `/stimuli` directory or by reference to a stimuli da
 The stimulus files can be added in a `/stimuli` directory
 (under the root directory of the dataset; with optional subdirectories) AND using a
 `stim_file` column in `events.tsv` mentioning which stimulus file was used
-for a given event,
+for a given event.
 
 It is RECOMMENDED to include a `stimuli.tsv` table containing a list of the stimuli present in the `/stimuli` directory.
 The `stimuli.tsv` would list the stimulus files as rows and provide more information about the stimulus files as columns, such as their types (for example, still images, movies, audio, multi-channel audio, etc), text descriptions, and optional columns including references, relevant HED tags, etc.
@@ -197,6 +197,7 @@ The `stimuli.tsv` MUST include the following columns:
    }
 ) }}
 
+If the `stimuli.tsv` file is used, the `stim_file` column in the `events.tsv` file SHOULD also reference the intended column in the `stimuli.tsv` file, using curly braces, for example `{stim_file, column}`.
 
 ### Time-varying stimuli
 A single-line annotation in a `stimuli.tsv` column would be sufficient for the still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
@@ -209,7 +210,15 @@ An exmaplry `stimuli.tsv` file is shown below:
 | ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | nsd03050.png                         | still_image | 3050   | 262414  | a person standing on a surfboard riding a wave | (Foreground-view, ((Item-count/1, ((Human, Human-agent), Body, Male, Agent-trait/Adolescent)), (Play, (Item-count/1, Man-made-object)))), (Background-view, (Outdoors, Natural-feature/Ocean)) |
 | the_present_movie.mp4                | movie       | n/a    | n/a     | n/a                                            | Visual-presentation, Movie                                                                                                                                                                     |
-| the_present_stimulus-LogLumRatio.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+| the_present-LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+
+An exemplary `events.rsv` file is shown below:
+
+| onset  | duration | value    | stim_file                         | HED                                                         |
+| ------ | -------- | -------- | --------------------------------- | ----------------------------------------------------------- |
+| 25.033 | 1.02     | nsd03050 | {nsd03050, first_COCO_description} | Sensory-event, Visual-presentation, (Image, {nsd03050.png}) |
+
+In this example, the `{nsd03050.jpg, first_COCO_description}` indicates to append or add the descriptions of the image under the *first_COCO_description* in the `stimuli.tsv` file to a column in the `events.tsv` file with the same name. Also, following the HED-specifications 3.2.0, the HED annotation incluiding `{nsd03050.jpg}` indicates replacing HED annotations from the `HED` column in the `stimuli.tsv` file to the `events.tsv` file's `HED` column for that particular event row.
 
 ### Relation to  `events.tsv` and `stim.tsv.gz` files
 The annotations within the `stimuli.tsv` and `stimulus.tsv` files can be expanded in the `events.tsv` files using remodelers when the file name is mentioned in the `stim_file` column.
