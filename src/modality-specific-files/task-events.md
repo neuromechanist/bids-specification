@@ -200,9 +200,9 @@ The `stimuli.tsv` MUST include the following columns:
 If the `stimuli.tsv` file is used, the `stim_file` column in the `events.tsv` file SHOULD also reference the intended column in the `stimuli.tsv` file, using curly braces, for example `{stim_file, column}`.
 
 ### Time-varying stimuli
-A single-line annotation in a `stimuli.tsv` column would be sufficient for the still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
+A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
 
-The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus.tsv`, which would hold the annotations for timepoints of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and REQUIRED and OPTIONAL columns of the `events.tsv` file MAY be accompanied by a JSON file describing the columns in detail.
+The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus.tsv`, which would hold the annotations for timepoints of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and cotain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
 
 An exmaplry `stimuli.tsv` file is shown below:
 
@@ -218,14 +218,14 @@ An exemplary `events.rsv` file is shown below:
 | ------ | -------- | -------- | --------------------------------- | ----------------------------------------------------------- |
 | 25.033 | 1.02     | nsd03050 | {nsd03050, first_COCO_description} | Sensory-event, Visual-presentation, (Image, {nsd03050.png}) |
 
-In this example, the `{nsd03050.jpg, first_COCO_description}` indicates to append or add the descriptions of the image under the *first_COCO_description* in the `stimuli.tsv` file to a column in the `events.tsv` file with the same name. Also, following the HED-specifications 3.2.0, the HED annotation incluiding `{nsd03050.jpg}` indicates replacing HED annotations from the `HED` column in the `stimuli.tsv` file to the `events.tsv` file's `HED` column for that particular event row.
+In this example, the `{nsd03050.jpg, first_COCO_description}` indicates to append or add the descriptions of the image under the *first_COCO_description* in the `stimuli.tsv` file to a column in the `events.tsv` file with the same name. Also, following the HED-specifications 3.2.0, the HED annotation `{nsd03050.jpg}` indicates inserting the HED annotation from the `HED` column in the `stimuli.tsv` file to the `events.tsv` file's `HED` column for that particular event row.
 
 ### Relation to  `events.tsv` and `stim.tsv.gz` files
-The annotations within the `stimuli.tsv` and `stimulus.tsv` files can be expanded in the `events.tsv` files using remodelers when the file name is mentioned in the `stim_file` column.
+The columns and annotations of an `events.tsv` file can be exapnded by annotations within the `stimuli.tsv` and `stimulus.tsv` files using remodelers when the file name is mentioned in the `stim_file` or other columns.
 
 While the contents of `stimuli.tsv` and `stimulus.tsv` can also be included in the individual `events.tsv` files, such implementation unnecessarily replicates annotations across subjects, modalities, tasks, and runs. Also, using `stimuli.tsv` and `stimulus.tsv` increases the possibility of both (1) reusing the same annotations in other studies and (2) reusing the dataset with alternative annotations - by merely changing one file.
 
-Another advantage of top-level `stimuli.tsv` and `stimulus.tsv` is avoiding the need to create and edit large `events.tsv` (and `events.json`) files for datasets that use complex stimuli, such as movies. By avoiding the need to include annotations in every data folder, the remodeler software will retrieve these annotations housed in the single top-level `/stimuli` directory during the analysis. This increasex the readability of all the data level  `events.tsv` and `events.json` files and avoid using fixed, lengthy annotations to annotate every instance of a constant stimulus. For large, standard stimulus sets, such as the [Natural Scene Dataset](https://naturalscenesdataset.org) or the immense [COCO image dataset](https://cocodataset.org/), holding a list of images used across the BIDS dataset in the top-level `/stimuli` directory, with their complete annotations, would give a useful cross-reference for debugging and design of analyses.
+Another advantage of top-level `stimuli.tsv` and `stimulus.tsv` is avoiding the need to create and edit large `events.tsv` (and `events.json`) files for datasets that use complex stimuli, such as movies. By avoiding the need to include annotations in every data folder, the remodeler software will retrieve these annotations housed in the single top-level `/stimuli` directory during the analysis. This increases the readability of data-level `events.tsv` and `events.json` files and avoid using fixed, lengthy annotations to annotate every instance of a constant stimulus. For large, standard stimulus sets, such as the [Natural Scene Dataset](https://naturalscenesdataset.org) or the immense [COCO image dataset](https://cocodataset.org/), holding a list of images used across the BIDS dataset in the top-level `/stimuli` directory, with their annotations, would give a useful cross-reference for debugging and design of analyses.
 
 ### Stimuli databases
 
