@@ -204,7 +204,7 @@ A single-line annotation in a `stimuli.tsv` column would be sufficient for still
 
 The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus.tsv`, which would hold the annotations for timepoints of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and cotain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
 
-An exmaplry `stimuli.tsv` file is shown below:
+An exemplary `stimuli.tsv` file is shown below:
 
 | stim_file                            | type        | NSD_id | COCO_id | first_COCO_description                         | HED                                                                                                                                                                                            |
 | ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
