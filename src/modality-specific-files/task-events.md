@@ -208,15 +208,15 @@ An exemplary `stimuli.tsv` file is shown below:
 | ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | nsd03050.png                         | still_image | 3050   | 262414  | a person standing on a surfboard riding a wave | (Foreground-view, ((Item-count/1, ((Human, Human-agent), Body, Male, Agent-trait/Adolescent)), (Play, (Item-count/1, Man-made-object)))), (Background-view, (Outdoors, Natural-feature/Ocean)) |
 | the-present_movie.mp4                | movie       | n/a    | n/a     | n/a                                            | Visual-presentation, Movie                                                                                                                                                                     |
-| the-present_LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+| the-present_annot-LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
 
 An exemplary `events.rsv` file is shown below:
 
 | onset  | duration | value    | stim_file                         | HED                                                         |
 | ------ | -------- | -------- | --------------------------------- | ----------------------------------------------------------- |
-| 25.033 | 1.02     | nsd03050 | {nsd03050, first_COCO_description} | Sensory-event, Visual-presentation, (Image, {nsd03050.png}) |
+| 25.033 | 1.02     | nsd03050 | nsd03050.png | Sensory-event, Visual-presentation, (Image, {nsd03050.png}) |
 
-In this example, the `{nsd03050.jpg, first_COCO_description}` indicates to append or add the descriptions of the image under the *first_COCO_description* in the `stimuli.tsv` file to a column in the `events.tsv` file with the same name. Also, following the HED-specifications 3.2.0, the HED annotation `{nsd03050.jpg}` indicates inserting the HED annotation from the `HED` column in the `stimuli.tsv` file to the `events.tsv` file's `HED` column for that particular event row.
+In this example, the `nsd03050.jpg` points to the respective row in `stimuli.tsv` file. The analyst can then expand the `events.tsv` using the associated columns populated for this row. Also, following the HED-specifications 3.2.0, the HED annotation `{nsd03050.jpg}` indicates inserting the HED annotation from the `HED` column in the `stimuli.tsv` file to the `events.tsv` file's `HED` column for that particular event row.
 
 ### Relation to  `events.tsv` and `stim.tsv.gz` files
 The columns and annotations of an `events.tsv` file can be exapnded by annotations within the `stimuli.tsv` and `stimulus.tsv` files using remodelers when the file name is mentioned in the `stim_file` or other columns.
