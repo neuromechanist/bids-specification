@@ -200,7 +200,7 @@ The `stimuli.tsv` MUST include the following columns:
 ### Time-varying stimuli
 A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
 
-The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus.tsv`, which would hold the annotations for timepoints of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and cotain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
+The temporal annotations for time-varying stimuli can be stored in a separate file, `annot-XXX_stimulus.tsv`, which would hold the annotations for time points of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and contain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
 
 An exemplary `stimuli.tsv` file is shown below:
 
