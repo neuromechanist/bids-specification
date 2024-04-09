@@ -187,7 +187,7 @@ for a given event.
 
 It is RECOMMENDED to include a `stimuli.tsv` table containing a list of the stimuli present in the `/stimuli` directory.
 The `stimuli.tsv` would list the stimulus files as rows and provide more information about the stimulus files as columns, such as their types (for example, still images, movies, audio, multi-channel audio, etc), text descriptions, and optional columns including references, relevant HED tags, etc.
-Annotations for the still stimulus files can be properly held in `stimuli.tsv` as specific columns. The `stimuli.tsv` file can be accompanied by a `stimuli.json` file describing the columns in detail.
+Annotations for the still stimulus files can be properly held in `stimuli.tsv` as specific columns. The `stimuli.tsv` file can be accompanied by a `stimuli.json` file describing the columns in detail. The `stimuli.json`, similar to the `events.json` file, MAY also include additional information about the stimuli, such as references to databases, HED tags, etc.
 The `stimuli.tsv` MUST include the following columns:
 
 {{ MACROS___make_columns_table(
