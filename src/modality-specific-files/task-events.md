@@ -197,8 +197,6 @@ The `stimuli.tsv` MUST include the following columns:
    }
 ) }}
 
-If the `stimuli.tsv` file is used, the `stim_file` column in the `events.tsv` file SHOULD also reference the intended column in the `stimuli.tsv` file, using curly braces, for example `{stim_file, column}`.
-
 ### Time-varying stimuli
 A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
 
