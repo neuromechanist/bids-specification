@@ -23,8 +23,7 @@ TaskEvents:
 StimuliFile:
   selectors:
     - '"task" in entities'
-    - suffix == "stimuli"
-    - extension == ".tsv"
+    - suffix == "events"
   columns:
     stim_file: required
     stim_file_type: required
