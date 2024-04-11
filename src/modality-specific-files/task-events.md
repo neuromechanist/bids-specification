@@ -208,9 +208,9 @@ An exemplary `stimuli.tsv` file is shown below:
 | ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | nsd03050.png                         | still_image | 3050   | 262414  | a person standing on a surfboard riding a wave | (Foreground-view, ((Item-count/1, ((Human, Human-agent), Body, Male, Agent-trait/Adolescent)), (Play, (Item-count/1, Man-made-object)))), (Background-view, (Outdoors, Natural-feature/Ocean)) |
 | the-present_movie.mp4                | movie       | n/a    | n/a     | n/a                                            | Visual-presentation, Movie                                                                                                                                                                     |
-| the-present_annot-LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+****| the-present_annot-LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
 
-An exemplary `events.rsv` file is shown below:
+An exemplary `events.tsv` file is shown below:
 
 | onset  | duration | value    | stim_file                         | HED                                                         |
 | ------ | -------- | -------- | --------------------------------- | ----------------------------------------------------------- |
