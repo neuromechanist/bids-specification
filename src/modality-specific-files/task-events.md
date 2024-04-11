@@ -193,7 +193,7 @@ The `stimuli.tsv` MUST include the following columns:
 {{ MACROS___make_columns_table(
    {
       "stim_file": ("REQUIRED", "There are no restrictions on the file formats of the stimuli files, but they should be stored in the `/stimuli` directory (under the root directory of the dataset; with OPTIONAL subdirectories). The values under the stim_file column correspond to a path relative to `/stimuli`. For example `images/cat03.jpg` will be translated to `/stimuli/images/cat03.jpg`. This column MUST appear as the first column in the file."),
-      "type": ("REQUIRED", "String. One of `movie`, `still_image`, `audio`, `annotation`, or Freeform.")
+      "type": ("REQUIRED", "String. One of `movie`, `still_image`, `audio`, `annotation`, `JSON`, or Freeform.")
    }
 ) }}
 
