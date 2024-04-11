@@ -190,12 +190,19 @@ The `stimuli.tsv` would list the stimulus files as rows and provide more informa
 Annotations for the still stimulus files can be properly held in `stimuli.tsv` as specific columns. The `stimuli.tsv` file can be accompanied by a `stimuli.json` file describing the columns in detail. The `stimuli.json`, similar to the `events.json` file, MAY also include additional information about the stimuli, such as references to databases, HED tags, etc.
 The `stimuli.tsv` MUST include the following columns:
 
-{{ MACROS___make_columns_table(
+<!-- {{ MACROS___make_columns_table(
    {
       "stim_file": "REQUIRED",
       "stim_file_type": "REQUIRED"
    }
-) }}
+) }} -->
+<!-- This block generates a columns table.
+The definitions of these fields can be found in
+  src/schema/rules/tabular_data/*.yaml
+and a guide for using macros can be found at
+ https://github.com/bids-standard/bids-specification/blob/master/macros_doc.md
+-->
+<!-- {{ MACROS___make_columns_table("task.StimuliFile") }} -->
 
 ### Time-varying stimuli
 A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* (or traces) for every frame (that is, the smallest temporal resolution of the stimulus file).
