@@ -870,9 +870,9 @@ template_z:
     - type: string
       enum:
         - n/a
-stim_file_type:
-  name: stim_file_type
-  display_name: Stimulus file type
-  description: |
-    The type of the stimulus files used in the experiment. One of `movie`, `still_image`, `audio`, `annotation`, `JSON`, or Freeform.
-  type: string
+# stim_type:
+#   name: stim_type
+#   display_name: Stimulus file type
+#   description: |
+#     The type of the stimulus files used in the experiment. One of `movie`, `still_image`, `audio`, `annotation`, `JSON`, or Freeform.
+#   type: string
