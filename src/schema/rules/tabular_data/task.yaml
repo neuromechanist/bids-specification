@@ -20,12 +20,13 @@ TaskEvents:
     - onset
     - duration
 
-Behavioral:
+StimuliFile:
   selectors:
-    - suffix == "beh"
+    - '"task" in entities'
+    - suffix == "stimuli"
+    - extension == ".tsv"
   columns:
-    trial_type: optional
-    response_time: optional
+    stim_file: required
+    stim_file_type: required
     HED: optional
-    stim_file: optional
   additional_columns: allowed
