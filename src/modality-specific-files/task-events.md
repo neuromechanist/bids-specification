@@ -198,9 +198,9 @@ The `stimuli.tsv` MUST include the following columns:
 ) }}
 
 ### Time-varying stimuli
-A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* for every frame (that is, the smallest temporal resolution of the stimulus file).
+A single-line annotation in a `stimuli.tsv` column would be sufficient for still stimulus files (for example, images). However, a time-varying stimulus file could need separate *temporal annotations* (or traces) for every frame (that is, the smallest temporal resolution of the stimulus file).
 
-The temporal annotations for time-varying stimuli can be stored in a separate file, `annot-XXX_stimulus.tsv`, which would hold the annotations for time points of the time-varying stimulus similar to an `events.tsv` file. `stimulus.tsv` MUST follow the same format and contain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
+The temporal annotations for time-varying stimuli can be stored in a separate file, `stimulus-file-name_trace-XXX_annot.tsv`, which would hold the annotations for time points of the time-varying stimulus similar to an `events.tsv` file. The temporal annotation filename MUST start with the stimulus file name available in the `/stimuli` directory. Difference annotation traces can be differentiated by modifying the trace name. The `annot.tsv` MUST follow the same format and contain the same REQUIRED and OPTIONAL columns of the `events.tsv` file, and MAY be accompanied by a JSON file describing the columns in detail.
 
 An exemplary `stimuli.tsv` file is shown below:
 
@@ -208,7 +208,7 @@ An exemplary `stimuli.tsv` file is shown below:
 | ------------------------------------ | ----------- | ------ | ------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | nsd03050.png                         | still_image | 3050   | 262414  | a person standing on a surfboard riding a wave | (Foreground-view, ((Item-count/1, ((Human, Human-agent), Body, Male, Agent-trait/Adolescent)), (Play, (Item-count/1, Man-made-object)))), (Background-view, (Outdoors, Natural-feature/Ocean)) |
 | the-present_movie.mp4                | movie       | n/a    | n/a     | n/a                                            | Visual-presentation, Movie                                                                                                                                                                     |
-****| the-present_annot-LogLumRatio_stimulus`.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
+the-present_trace-LogLumRatio_annot.tsv | annotation  | n/a    | n/a     | n/a                                            | n/a                                                                                                                                                                                            |
 
 An exemplary `events.tsv` file is shown below:
 
