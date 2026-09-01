@@ -739,7 +739,11 @@ export interface Schema {
          * via the `patternProperty` "^[a-z]+$".
          */
         [k: string]: {
-          [k: string]: SuffixRule;
+          /**
+           * This interface was referenced by `undefined`'s JSON-Schema definition
+           * via the `patternProperty` "^[a-zA-Z0-9_]+$".
+           */
+          [k: string]: SuffixRule | StemRule;
         };
       };
     };
@@ -834,12 +838,23 @@ export interface StemRule {
   level: "optional" | "recommended" | "required";
   datatypes?: string[];
   stem: string;
+  path?: string;
   extensions: string[];
+  entities?: {
+    /**
+     * This interface was referenced by `undefined`'s JSON-Schema definition
+     * via the `patternProperty` "^[a-z]+$".
+     */
+    [k: string]:
+      | ("optional" | "required")
+      | {
+          level: "optional" | "required";
+          enum: string[];
+          [k: string]: unknown;
+        };
+  };
 }
 /**
- * This interface was referenced by `undefined`'s JSON-Schema definition
- * via the `patternProperty` "^[a-zA-Z0-9_]+$".
- *
  * This interface was referenced by `undefined`'s JSON-Schema definition
  * via the `patternProperty` "^[a-zA-Z0-9_]+$".
  */
@@ -848,6 +863,7 @@ export interface SuffixRule {
   level?: "optional" | "recommended" | "required";
   datatypes?: string[];
   suffixes: string[];
+  path?: string;
   extensions: string[];
   entities: {
     /**
