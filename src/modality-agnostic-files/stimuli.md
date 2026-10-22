@@ -20,17 +20,28 @@ Following these guidelines will help ensure that stimulus files and their annota
 
 ## File Organization
 
-<!--
-This block generates a filename templates for root-level directories.
-The inputs for this macro can be found in the directory
-  src/schema/rules/files/raw
-and a guide for using macros can be found at
- https://github.com/bids-standard/bids-specification/blob/master/macros_doc.md
--->
-{{ MACROS___make_root_filename_template(
-   "raw",
-   path="stimuli")
-}}
+```Text
+stimuli/
+    stimuli.tsv
+    stimuli.json
+    annotations.tsv
+    annotations.json
+    stim-<label>_annotations.tsv
+    stim-<label>_annotations.json
+    stim-<label>[_part-<label>]_audio.<extension>
+    stim-<label>[_part-<label>]_audio.json
+    stim-<label>[_part-<label>]_image.<extension>
+    stim-<label>[_part-<label>]_image.json
+    stim-<label>[_part-<label>]_video.<extension>
+    stim-<label>[_part-<label>]_video.json
+    stim-<label>[_part-<label>]_audiovideo.<extension>
+    stim-<label>[_part-<label>]_audiovideo.json
+    stim-<label>[_part-<label>]_annot-<label>_events.tsv
+    stim-<label>[_part-<label>]_annot-<label>_events.json
+```
+
+The allowed values of `<extension>` for each suffix are listed in
+[Stimulus File Formats](#stimulus-file-formats).
 
 Note: The presence of a `stimuli.tsv` file anywhere under the `/stimuli` directory indicates that the content of the `/stimuli` directory follows this BIDS specification for stimulus organization.
 
