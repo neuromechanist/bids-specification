@@ -43,3 +43,22 @@ phenotype:
   extensions:
     - .tsv
     - .json
+
+# Stimulus catalogs in the root-level /stimuli directory, following the
+# phenotype pattern of encoding the parent directory as the datatype.
+stimuli:
+  level: recommended
+  datatypes:
+    - stimuli
+  stem: stimuli
+  extensions:
+    - .tsv
+    - .json
+annotations:
+  level: optional
+  datatypes:
+    - stimuli
+  stem: annotations
+  extensions:
+    - .tsv
+    - .json
