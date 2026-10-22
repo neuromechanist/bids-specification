@@ -327,13 +327,17 @@ def make_filename_template(
     )
     lines = [f"{sub_string}/", f"\t[{ses_string}/]"]
 
+    # Datatypes that are top-level directories (e.g., stimuli) are not
+    # nested under sub-<label>/[ses-<label>/]
+    dir_rules = schema.rules.directories[{"deriv": "derivative"}.get(dstype, dstype)]
+    root_dirs = {subdir for subdir in dir_rules.root.subdirs if isinstance(subdir, str)}
+
     file_rules = schema.rules.files[dstype]
     file_groups = {}
     for rule in file_rules.values(level=2):
-        # Skip rules that don't have datatypes (e.g., stimuli rules with path-based organization)
-        if not hasattr(rule, "datatypes"):
-            continue
         for datatype in rule.datatypes:
+            if datatype in root_dirs:
+                continue
             file_groups.setdefault(datatype, []).append(rule)
 
     if empty_dirs is None:
@@ -405,38 +409,29 @@ def make_filename_template(
 
                 ent_string = _add_entity(ent_string, pattern, entity["level"])
 
-            # Handle both suffix-based and stem-based groups
-            if "suffixes" in group:
-                # In cases of large numbers of suffixes,
-                # we use the "suffix" variable and expect a table later in the spec
-                if len(group["suffixes"]) >= n_dupes_to_combine:
-                    suffixes = [
-                        lt
-                        + utils._link_with_html(
-                            "suffix",
-                            html_path=GLOSSARY_PATH + ".html",
-                            heading="suffix-common_principles",
-                            pdf_format=pdf_format,
-                        )
-                        + gt
-                    ]
-                else:
-                    suffixes = [
-                        utils._link_with_html(
-                            suffix,
-                            html_path=GLOSSARY_PATH + ".html",
-                            heading=f"{suffix_key_table[suffix].lower()}-suffixes",
-                            pdf_format=pdf_format,
-                        )
-                        for suffix in group.suffixes
-                    ]
-            elif "stem" in group:
-                # For stem-based groups (like participants.tsv), use the stem directly
-                # No need to add underscore prefix for stem-based files
-                suffixes = [group["stem"]]
+            # In cases of large numbers of suffixes,
+            # we use the "suffix" variable and expect a table later in the spec
+            if len(group["suffixes"]) >= n_dupes_to_combine:
+                suffixes = [
+                    lt
+                    + utils._link_with_html(
+                        "suffix",
+                        html_path=GLOSSARY_PATH + ".html",
+                        heading="suffix-common_principles",
+                        pdf_format=pdf_format,
+                    )
+                    + gt
+                ]
             else:
-                # Fallback - should not happen in well-formed schema
-                suffixes = ["<unknown>"]
+                suffixes = [
+                    utils._link_with_html(
+                        suffix,
+                        html_path=GLOSSARY_PATH + ".html",
+                        heading=f"{suffix_key_table[suffix].lower()}-suffixes",
+                        pdf_format=pdf_format,
+                    )
+                    for suffix in group.suffixes
+                ]
 
             # Add extensions
             extensions = [ext if ext != "*" else ".<extension>" for ext in group.extensions]
@@ -465,21 +460,11 @@ def make_filename_template(
                 pdf_format=pdf_format,
             )
 
-            # Build filename patterns based on whether this is a stem or suffix-based group
-            if "stem" in group:
-                # For stem-based files, use just stem + extension (no underscore separator)
-                group_lines.extend(
-                    f"\t\t\t{ent_string}{suffix}{extension}"
-                    for suffix in sorted(suffixes)
-                    for extension in sorted(extensions)
-                )
-            else:
-                # For suffix-based files, use entities + underscore + suffix + extension
-                group_lines.extend(
-                    f"\t\t\t{ent_string}_{suffix}{extension}"
-                    for suffix in sorted(suffixes)
-                    for extension in sorted(extensions)
-                )
+            group_lines.extend(
+                f"\t\t\t{ent_string}_{suffix}{extension}"
+                for suffix in sorted(suffixes)
+                for extension in sorted(extensions)
+            )
 
         # If the datatype does not have any files, skip
         if not empty_dirs and len(group_lines) == 1:

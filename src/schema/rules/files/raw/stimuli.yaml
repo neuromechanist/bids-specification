@@ -1,27 +1,23 @@
----
-# Define the stimuli files (root-level directory, not subject-scoped)
-stimuli_table:
-  level: recommended
-  path: stimuli
-  stem: stimuli
-  extensions:
-    - .json
-    - .tsv
-  entities: {} # No entities apply to the stimuli.tsv/json index files themselves
-
-annotations_table:
-  level: recommended
-  path: stimuli
-  stem: annotations
+# Stimulus files in the root-level /stimuli directory.
+# As with phenotype, the parent directory is encoded as the datatype;
+# the dataset-wide stimuli.tsv and annotations.tsv tables are in
+# rules/files/common/tables.yaml.
+stimulus_annotations:
+  level: optional
+  datatypes:
+    - stimuli
+  suffixes:
+    - annotations
   extensions:
     - .json
     - .tsv
   entities:
-    stimulus: optional # The annotations table can be global or stimulus-specific
+    stimulus: required
 
 stimulus_audio:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - audio
   extensions:
@@ -37,7 +33,8 @@ stimulus_audio:
 
 stimulus_image:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - image
   extensions:
@@ -54,7 +51,8 @@ stimulus_image:
 
 stimulus_video:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - video
   extensions:
@@ -69,7 +67,8 @@ stimulus_video:
 
 stimulus_audiovideo:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - audiovideo
   extensions:
@@ -82,9 +81,10 @@ stimulus_audiovideo:
     stimulus: required
     part: optional
 
-stimulus_annotations_events: # Renamed for clarity, representing the annot-<label>_events files
+stimulus_annotations_events: # stim-<label>[_part-<label>]_annot-<label>_events.{tsv,json}
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - events
   extensions:
