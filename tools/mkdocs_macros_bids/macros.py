@@ -324,18 +324,7 @@ def make_sidecar_table(table_name, src_path=None):
     if src_path is None:
         src_path = _get_source_path()
 
-    # Load schema with explicit path to avoid caching issues
-    import os
-
-    schema_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-        "src",
-        "schema.json",
-    )
-    if os.path.exists(schema_path):
-        schema_obj = schema.load_schema(schema_path)
-    else:
-        schema_obj = schema.load_schema()
+    schema_obj = schema.load_schema()
     table = render.make_sidecar_table(schema_obj, table_name, src_path=src_path)
     return table
 
@@ -394,18 +383,7 @@ def make_columns_table(table_name, src_path=None):
     if src_path is None:
         src_path = _get_source_path()
 
-    # Load schema with explicit path to avoid caching issues
-    import os
-
-    schema_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-        "src",
-        "schema.json",
-    )
-    if os.path.exists(schema_path):
-        schema_obj = schema.load_schema(schema_path)
-    else:
-        schema_obj = schema.load_schema()
+    schema_obj = schema.load_schema()
     table = render.make_columns_table(schema_obj, table_name, src_path=src_path)
     return table
 

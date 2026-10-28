@@ -10,13 +10,17 @@ StimuliTsvForStimId:
   issue:
     code: STIMULI_TSV_MISSING
     message: |
-      The stim_id column is used in an events.tsv file, but no stimuli.tsv
-      file is present in the /stimuli directory. A stimuli.tsv file,
-      even a sparse one listing only the stimulus_id of every stimulus,
-      is RECOMMENDED as the entry point for resolving stim_id references.
+      The stim_id column is used in an events.tsv file and the dataset has a
+      /stimuli directory, but no stimuli.tsv file is present in it.
+      A stimuli.tsv file, even a sparse one listing only the stimulus_id of
+      every stimulus in /stimuli, is RECOMMENDED as the entry point for
+      resolving stim_id references.
     level: warning
   selectors:
     - suffix == "events"
     - columns.stim_id != null
+    # Matches the /stimuli directory itself: the reference validator resolves
+    # exists() paths against the file tree, where directories are found too.
+    - exists("stimuli", "dataset") == 1
   checks:
     - exists("stimuli.tsv", "stimuli") == 1

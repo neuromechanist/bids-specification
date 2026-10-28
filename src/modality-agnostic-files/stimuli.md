@@ -3,9 +3,12 @@
 ## Stimulus Files Organization
 
 Stimulus files MAY be stored in the `/stimuli` directory under the root directory of the dataset.
-When this specification is followed,
-stimulus files in the `/stimuli` directory MUST follow the naming conventions described below,
-and `events.tsv` files reference them through the `stim_id` column.
+A `/stimuli` directory that contains a `stimuli.tsv` file follows this specification:
+its files MUST be stored directly in `/stimuli`
+and MUST follow the naming conventions and formats described below,
+and `events.tsv` files SHOULD reference the stimuli through the `stim_id` column.
+A `/stimuli` directory without a `stimuli.tsv` file is not restricted by this specification,
+so that existing datasets remain valid.
 
 The standardization of stimulus files and their annotations within BIDS offers several key benefits:
 
@@ -14,12 +17,10 @@ The standardization of stimulus files and their annotations within BIDS offers s
 1.  **Efficiency**: Minimizes redundancy by centralizing annotations
 1.  **Flexibility**: Facilitates dataset reuse with alternative annotations
 
-To preserve backward compatibility with existing datasets
-(which reference stimulus files directly through the `stim_file` column,
-as described in [Task events](events.md#stimulus-organization)),
-following this specification for the `/stimuli` directory
-and using the `stim_id` column in `events.tsv` files is RECOMMENDED but not required.
-Researchers are encouraged to follow these guidelines to enhance the interoperability and reproducibility of their studies.
+Existing datasets reference stimulus files directly through the `stim_file` column,
+as described in [Task events](events.md#stimulus-organization).
+Following this specification for the `/stimuli` directory
+and using the `stim_id` column in `events.tsv` files is RECOMMENDED.
 
 ## File Organization
 
@@ -39,9 +40,6 @@ stimuli/
     stim-<label>_annotations.json
 ```
 
-The presence of a `stimuli.tsv` file in the `/stimuli` directory indicates
-that the content of the `/stimuli` directory follows this specification.
-
 The `stim-<label>` entity identifies a stimulus:
 all files that share the same `stim-<label>`
 (the stimulus files, their JSON metadata, and their annotation files)
@@ -57,7 +55,8 @@ in the participant's directories instead
 
 ### Stimulus File Formats
 
-The following table lists the supported stimulus file formats and their corresponding suffixes. The suffixes are used to identify the type of stimulus file and are appended to the `stim-<label>` prefix in the file name.
+The following table lists the supported stimulus file formats and their corresponding suffixes.
+The suffix identifies the type of stimulus file and follows the entities in the file name.
 
 | suffix      | extensions                                                | description                  |
 | ----------- | --------------------------------------------------------- | ---------------------------- |
@@ -84,9 +83,10 @@ A guide for using macros can be found at
 -->
 {{ MACROS___make_sidecar_table("stimuli.Stimuli") }}
 
-In some cases, such as observing the copyright of a stimulus file, the actual stimulus file may not be shared.
-In such cases, the `stim-<label>_<suffix>.json` file SHOULD be used to provide metadata about the stimulus file,
-including the license, copyright, URL, and description.
+A `stim-<label>_<suffix>.json` file accompanies a shared stimulus file.
+A stimulus file that cannot be shared, for example because of copyright,
+is described by its row in `stimuli.tsv` instead
+(see [Stimuli Description](#stimuli-description-stimulitsv)).
 
 ### Example `stim-<label>_<suffix>.json`
 
@@ -105,7 +105,7 @@ or from common license lists such as [SPDX](https://spdx.org/licenses/)
 or [Creative Commons](https://creativecommons.org/licenses/).
 The `Copyright` field SHOULD provide the year, copyright holder's name,
 and if available, the email address of the copyright holder.
-If the stimulus file is not shared, the `URL` field SHOULD provide a link to the stimulus file itself,
+The `URL` field links to the stimulus file itself,
 not to a directory or collection of files.
 
 ## Stimuli Description (`stimuli.tsv`)
@@ -113,7 +113,8 @@ not to a directory or collection of files.
 The `stimuli.tsv` file is used to provide information about the stimuli based on their `stimulus_id`.
 This file is similar in usage to `participants.tsv`, `scans.tsv`, and `sessions.tsv`,
 which list descriptions about subjects, scans, and sessions, respectively.
-A `stimuli.tsv` file in the `/stimuli` directory is RECOMMENDED.
+A `stimuli.tsv` file in the `/stimuli` directory is RECOMMENDED;
+its presence marks the directory as following this specification.
 
 The `stimuli.tsv` file contains information about each stimulus, including stimulus ID, type, URL, and other relevant details. The following table describes the REQUIRED, RECOMMENDED, and OPTIONAL columns for the `stimuli.tsv` file:
 
@@ -136,7 +137,12 @@ stim-movie01	video	https://example.com/movies/movie01.mp4	n/a	Studio XYZ	A clip 
 
 The `stimuli.json` file provides detailed descriptions of the columns in the `stimuli.tsv` file. There MAY be extra entries in the `stimuli.json` in addition to the columns in the `stimuli.tsv` to provide more details about the stimulus.
 
-In cases where the stimulus is not shared, the `stimuli.tsv` file can be used to provide metadata about the stimuli, including the license, copyright, URL, and description. This is similar to the use of `stim-<label>_<suffix>.json` files for individual stimuli files. In the case of conflict between the metadata in the `stimuli.tsv` and `stim-<label>_<suffix>.json` files, the metadata in the `stim-<label>_<suffix>.json` file takes precedence.
+A stimulus that is not shared SHOULD be listed in `stimuli.tsv`
+with the `present` column set to `false`
+and its license, copyright, URL, and description filled in,
+as for `stim-movie01` in the example above.
+In the case of conflict between the metadata in the `stimuli.tsv` and `stim-<label>_<suffix>.json` files,
+the metadata in the `stim-<label>_<suffix>.json` file takes precedence.
 
 ## Stimulus Annotations
 
@@ -158,7 +164,17 @@ Annotation files MUST be stored in the `/stimuli` directory.
 When more than one stimulus file shares the same `stim-<label>`,
 the `Sources` field of the annotation file's JSON sidecar
 SHOULD list the stimulus files that the annotations describe,
-using [BIDS URIs](../common-principles.md#bids-uri).
+using [BIDS URIs](../common-principles.md#bids-uri):
+
+<!-- This block generates a metadata table.
+These tables are defined in
+  src/schema/rules/sidecars
+The definitions of the fields specified in these tables may be found in
+  src/schema/objects/metadata.yaml
+A guide for using macros can be found at
+ https://github.com/bids-standard/bids-specification/blob/master/macros_doc.md
+-->
+{{ MACROS___make_sidecar_table("stimuli.AnnotationSources") }}
 
 ### Example `stim-<label>_annot-<label>_events.tsv`
 
@@ -256,6 +272,7 @@ Subject-specific stimulus files are distinct from `*_stim.tsv.gz` files,
 which store continuously sampled stimulus signals in tabular form
 (see [Physiological recordings](../modality-specific-files/physiological-recordings.md)).
 
+As for other files with a `task` entity, the `TaskName` field is RECOMMENDED.
 The JSON sidecar of a subject-specific stimulus file SHOULD describe its media streams
 (see the [Media Files appendix](../appendices/media-files.md)).
 The following fields are also defined:
@@ -297,6 +314,7 @@ with the following sidecar:
 
 ```JSON
 {
+    "TaskName": "movie",
     "Sources": ["bids::stimuli/stim-movie01_audiovideo.mp4"],
     "VideoCodec": "h264",
     "VideoFrameRate": 60,
