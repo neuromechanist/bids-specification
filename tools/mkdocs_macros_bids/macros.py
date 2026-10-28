@@ -80,6 +80,8 @@ def make_filename_template(dstype="raw", src_path=None, pdf_format=False, **kwar
         Keyword arguments used to filter the schema.
         Example kwargs that may be used include: "suffixes", "datatypes",
         "extensions".
+        Datatypes stored in named directories at the dataset root (for example, "stimuli")
+        are rendered at the dataset root, and only when listed in "datatypes".
 
     Returns
     -------

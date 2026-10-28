@@ -26,19 +26,18 @@ and using the `stim_id` column in `events.tsv` files is RECOMMENDED.
 
 Stimulus files, their metadata, and their annotations are stored directly in the `/stimuli` directory:
 
-```Text
-stimuli/
-    stimuli.tsv
-    stimuli.json
-    annotations.tsv
-    annotations.json
-    stim-<label>[_part-<label>]_<suffix>.<extension>
-    stim-<label>[_part-<label>]_<suffix>.json
-    stim-<label>[_part-<label>]_annot-<label>_events.tsv
-    stim-<label>[_part-<label>]_annot-<label>_events.json
-    stim-<label>_annotations.tsv
-    stim-<label>_annotations.json
-```
+<!--
+This block generates a filename templates.
+The inputs for this macro can be found in the directory
+  src/schema/rules/files/raw
+and a guide for using macros can be found at
+ https://github.com/bids-standard/bids-specification/blob/master/macros_doc.md
+-->
+{{ MACROS___make_filename_template(
+   "raw",
+   datatypes=["stimuli"],
+   n_dupes_to_combine=3)
+}}
 
 The `stim-<label>` entity identifies a stimulus:
 all files that share the same `stim-<label>`
@@ -93,7 +92,7 @@ A `stim-<label>_<suffix>.json` file accompanies a shared stimulus file.
 A stimulus file that cannot be shared, for example because of copyright,
 is described by its row in `stimuli.tsv` instead
 (see [Stimuli Description](#stimuli-description-stimulitsv)).
-See [Stimulus-level and file-level metadata](#stimulus-level-and-file-level-metadata) for when to use each file.
+See [Stimulus-level and file-level metadata](#stimulus-level-and-file-level-metadata-stimulitsv-vs-stim-label_suffixjson) for when to use each file.
 
 ### Example `stim-<label>_<suffix>.json`
 
@@ -151,7 +150,7 @@ with the `present` column set to `false`
 and its license, copyright, URL, and description filled in,
 as for `stim-movie01` in the example above.
 
-### Stimulus-level and file-level metadata
+### Stimulus-level and file-level metadata (`stimuli.tsv` vs. `stim-<label>_<suffix>.json`)
 
 The `stimuli.tsv` file and the `stim-<label>_<suffix>.json` sidecars describe stimuli at two levels.
 
