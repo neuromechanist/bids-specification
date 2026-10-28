@@ -124,7 +124,9 @@ which list descriptions about subjects, scans, and sessions, respectively.
 A `stimuli.tsv` file in the `/stimuli` directory is RECOMMENDED;
 its presence marks the directory as following this specification.
 
-The `stimuli.tsv` file contains information about each stimulus, including stimulus ID, type, URL, and other relevant details. The following table describes the REQUIRED, RECOMMENDED, and OPTIONAL columns for the `stimuli.tsv` file:
+The `stimuli.tsv` file contains information about each stimulus,
+including its identifier, type, license, whether its file is present, and other relevant details.
+The following table describes the REQUIRED, RECOMMENDED, and OPTIONAL columns for the `stimuli.tsv` file:
 
 <!-- This block generates a columns table.
 The definitions of these fields can be found in
