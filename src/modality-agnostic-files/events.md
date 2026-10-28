@@ -444,4 +444,7 @@ Reference stimulus identifiers using the `stim_id` column to link events to comp
 }
 ```
 
+The `stim_file` and `stim_id` columns MAY both be present in the same `events.tsv` file;
+when both are given for an event, they MUST refer to the same stimulus.
+
 For detailed information on stimulus file organization, metadata, and annotations, see the [Stimuli](./stimuli.md) specification.
