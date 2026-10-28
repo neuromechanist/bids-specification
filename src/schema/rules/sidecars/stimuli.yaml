@@ -12,8 +12,8 @@ Stimuli:
     - datatype == "stimuli"
     - intersects([suffix], ["audio", "video", "audiovideo", "image"])
   fields:
-    StimulusLicense: recommended
-    Copyright: recommended
+    StimulusLicense: optional
+    Copyright: optional
     StimulusURL: optional
     Description: optional
 
