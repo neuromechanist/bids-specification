@@ -137,8 +137,11 @@ and a guide for using macros can be found at
 
 The `type`, `license`, and `present` columns are REQUIRED:
 a stimulus that is not shared has no file from which its type could be inferred,
-and the license of each stimulus is stated once, in `stimuli.tsv`.
-The value `n/a` MAY be used when the license is unknown.
+the license of each stimulus is stated in `stimuli.tsv`
+so that tools can read it without opening every sidecar,
+and `present` tells readers and validators whether to expect the stimulus file in `/stimuli`.
+The value `n/a` MAY be used for `license`
+when the license is unknown or the stimulus is not licensed for sharing.
 
 ### Example `stimuli.tsv`
 
@@ -153,7 +156,7 @@ The `stimuli.json` file provides detailed descriptions of the columns in the `st
 
 A stimulus that is not shared SHOULD be listed in `stimuli.tsv`
 with the `present` column set to `false`
-and its license, copyright, URL, and description filled in,
+and its license (or `n/a`), copyright, URL, and description filled in,
 as for `stim-movie01` in the example above.
 
 ### Stimulus-level and file-level metadata
@@ -183,15 +186,14 @@ Sidecars carry the metadata that a single `stimuli.tsv` row cannot express:
 1.  Descriptive metadata that differs between the parts of one stimulus,
     for example parts that come from different sources, with different URLs or licenses.
 
-A sidecar also keeps the license and provenance next to its file
+A sidecar can also keep the license and provenance next to its file
 when the file is copied to another dataset.
 
 The `license`, `copyright`, `URL`, and `description` columns of `stimuli.tsv`
 correspond to the `License`, `Copyright`, `URL`, and `Description` fields of the sidecar.
 Metadata that applies to the whole stimulus belongs in `stimuli.tsv`.
 A sidecar SHOULD contain the media stream metadata of its files,
-and MAY repeat the `License` and `Copyright` fields,
-so that license and provenance travel with the file.
+and MAY repeat the `License` and `Copyright` fields.
 Values given in both files SHOULD agree;
 when they differ, the value in the sidecar applies to the files that the sidecar describes.
 
