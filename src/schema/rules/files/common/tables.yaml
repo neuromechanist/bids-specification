@@ -47,7 +47,7 @@ phenotype:
 # The stimulus catalog tables live directly in the root-level /stimuli
 # directory, which plays the role of a datatype directory (as phenotype does).
 stimuli:
-  level: optional
+  level: recommended
   datatypes:
     - stimuli
   stem: stimuli
