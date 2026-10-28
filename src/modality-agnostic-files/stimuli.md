@@ -145,10 +145,10 @@ when the license is unknown or the stimulus is not licensed for sharing.
 ### Example `stimuli.tsv`
 
 ```tsv
-stimulus_id	type	URL	license	copyright	description	present
-stim-face01	image	https://example.com/faces/face01.jpg	CC-BY-4.0	Lab 2023	A female face with neutral expression	true
-stim-tone01	audio	https://example.com/tones/tone01.wav	CC-BY-4.0	Lab 2023	A 440Hz pure tone	true
-stim-movie01	video	https://example.com/movies/movie01.mp4	n/a	Studio XYZ	A clip from a copyrighted movie	false
+stimulus_id	type	license	present	copyright	description	URL
+stim-face01	image	CC-BY-4.0	true	Lab 2023	A female face with neutral expression	https://example.com/faces/face01.jpg
+stim-tone01	audio	CC-BY-4.0	true	Lab 2023	A 440Hz pure tone	https://example.com/tones/tone01.wav
+stim-movie01	video	n/a	false	Studio XYZ	A clip from a copyrighted movie	https://example.com/movies/movie01.mp4
 ```
 
 The `stimuli.json` file provides detailed descriptions of the columns in the `stimuli.tsv` file. There MAY be extra entries in the `stimuli.json` in addition to the columns in the `stimuli.tsv` to provide more details about the stimulus.
