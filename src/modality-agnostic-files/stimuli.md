@@ -160,9 +160,29 @@ the `Sources` field of the annotation file's JSON sidecar
 SHOULD list the stimulus files that the annotations describe,
 using [BIDS URIs](../common-principles.md#bids-uri).
 
+### Example `stim-<label>_annot-<label>_events.tsv`
+
+The file `stim-thepresent_annot-action_events.tsv` annotates the visible actions in an animated short film,
+`stim-thepresent_audiovideo.mp4`,
+with onsets in seconds from the start of the film:
+
+```tsv
+onset	duration	boy_action	dog_action	environment_action
+0.01	2.531	n/a	n/a	black screen
+2.55	1	n/a	n/a	credits appear on the screen
+7.25	0.105	eyes and mouth of the boy wide open	n/a	n/a
+```
+
+A second file, `stim-thepresent_annot-auditory_events.tsv`,
+can annotate the speech and sounds of the same film,
+so that each annotation set can be added, replaced, or reused independently.
+
 ## Annotation Description (`annotations.tsv`)
 
-The `annotations.tsv` file contains additional metadata about stimulus annotations.
+The `annotations.tsv` file lists the annotation sets available for the stimuli,
+one row per `annot-<label>`,
+so that tools and readers can discover which annotations exist
+and what each describes without opening every annotation file.
 There MAY be a single `annotations.tsv` file for all the stimuli
 or separate `stim-<label>_annotations.tsv` files for each stimulus.
 The values of the `annot_id` column are the labels of the `annot-<label>` entity.
@@ -180,9 +200,8 @@ and a guide for using macros can be found at
 
 ```tsv
 annot_id	description
-emotion	Emotion expressed by the face, one row per image
-gender	Perceived gender of the face, one row per image
-pitch	Fundamental frequency of the tone over time
+action	Actions of the characters and changes in the environment, one row per visible action
+auditory	Speech, animal sounds, and foley sounds, one row per sound
 ```
 
 ## Subject-specific stimulus files
