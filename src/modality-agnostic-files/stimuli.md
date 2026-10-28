@@ -35,7 +35,8 @@ and a guide for using macros can be found at
 -->
 {{ MACROS___make_filename_template(
    "raw",
-   datatypes=["stimuli"])
+   datatypes=["stimuli"],
+   n_dupes_to_combine=3)
 }}
 
 The `stim-<label>` entity identifies a stimulus:

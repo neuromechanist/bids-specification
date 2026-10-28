@@ -299,6 +299,11 @@ def make_filename_template(
     Notes
     -----
     This function links to HTML files, rather than markdown files.
+
+    Datatypes stored in named directories at the dataset root (for example, ``stimuli``)
+    are left out unless they are listed in the ``datatypes`` filter.
+    When requested, they are rendered at the dataset root,
+    together with the stem tables stored there (for example, ``stimuli.tsv``).
     """
     if not schema:
         schema = load_schema()
@@ -470,14 +475,19 @@ def make_filename_template(
 
         if datatype in root_dirs:
             # Add the dataset-level tables stored in this directory (for example,
-            # stimuli/stimuli.tsv), then move the whole group to the dataset root
+            # stimuli/stimuli.tsv), unless a suffix filter excludes them (they have no suffix),
+            # then move the whole group to the dataset root
             stem_lines = [
                 f"\t\t\t{rule.stem}{extension}"
                 for rule in schema.rules.files.common.values(level=2)
-                if "stem" in rule and datatype in rule.get("datatypes", ())
+                if "stem" in rule
+                and datatype in rule.get("datatypes", ())
+                and "suffixes" not in kwargs
                 for extension in sorted(rule.extensions)
             ]
-            root_lines.extend(line[2:] for line in group_lines[:1] + stem_lines + group_lines[1:])
+            group_lines[1:1] = stem_lines
+            if empty_dirs or len(group_lines) > 1:
+                root_lines.extend(line[2:] for line in group_lines)
             continue
 
         # If the datatype does not have any files, skip
