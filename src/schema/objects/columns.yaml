@@ -716,9 +716,10 @@ stim_id:
   description: |
     Represents a unique identifier for the stimulus presented at the given onset
     time, of the form `stim-<label>`. The `stim_id` refers to all files with the
-    same `stim-<label>` entity, in the `/stimuli` directory or in the participant's
-    directories (stimulus and annotation files), and to the information about the
-    stimulus present in the `stimuli.tsv` file.
+    same `stim-<label>` entity (stimulus files in the `/stimuli` directory or in
+    the participant's directories, and annotation files in the `/stimuli`
+    directory), and to the information about the stimulus present in the
+    `stimuli.tsv` file.
   type: string
   pattern: ^stim-[0-9a-zA-Z+]+$
 strain:

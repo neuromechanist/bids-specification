@@ -19,6 +19,8 @@ StimuliTsvForStimId:
   selectors:
     - suffix == "events"
     - columns.stim_id != null
+    # Matches the /stimuli directory itself: the reference validator resolves
+    # exists() paths against the file tree, where directories are found too.
     - exists("stimuli", "dataset") == 1
   checks:
     - exists("stimuli.tsv", "stimuli") == 1
