@@ -1,27 +1,11 @@
 ---
-# Define the stimuli files (root-level directory, not subject-scoped)
-stimuli_table:
-  level: recommended
-  path: stimuli
-  stem: stimuli
-  extensions:
-    - .json
-    - .tsv
-  entities: {} # No entities apply to the stimuli.tsv/json index files themselves
-
-annotations_table:
-  level: recommended
-  path: stimuli
-  stem: annotations
-  extensions:
-    - .json
-    - .tsv
-  entities:
-    stimulus: optional # The annotations table can be global or stimulus-specific
-
+# Stimulus files in the root-level /stimuli directory.
+# The dataset-wide catalog tables (stimuli.tsv, annotations.tsv) are stem rules
+# in rules/files/common/tables.yaml, following the phenotype pattern.
 stimulus_audio:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - audio
   extensions:
@@ -37,12 +21,14 @@ stimulus_audio:
 
 stimulus_image:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - image
   extensions:
     - .json
     - .jpg
+    - .jpeg
     - .png
     - .svg
     - .webp
@@ -54,7 +40,8 @@ stimulus_image:
 
 stimulus_video:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - video
   extensions:
@@ -69,7 +56,8 @@ stimulus_video:
 
 stimulus_audiovideo:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - audiovideo
   extensions:
@@ -82,9 +70,11 @@ stimulus_audiovideo:
     stimulus: required
     part: optional
 
-stimulus_annotations_events: # Renamed for clarity, representing the annot-<label>_events files
+# stim-<label>_annot-<label>_events.tsv
+stimulus_annotation_events:
   level: optional
-  path: stimuli
+  datatypes:
+    - stimuli
   suffixes:
     - events
   extensions:
@@ -94,3 +84,16 @@ stimulus_annotations_events: # Renamed for clarity, representing the annot-<labe
     stimulus: required
     annotation: required
     part: optional
+
+# stim-<label>_annotations.tsv
+stimulus_annotations:
+  level: optional
+  datatypes:
+    - stimuli
+  suffixes:
+    - annotations
+  extensions:
+    - .json
+    - .tsv
+  entities:
+    stimulus: required

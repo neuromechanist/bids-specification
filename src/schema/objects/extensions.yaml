@@ -147,6 +147,12 @@ funcgii:
     morphometry (`.shape.gii`).
 
     This extension may only be used in derivative datasets.
+jpeg:
+  value: .jpeg
+  display_name: Joint Photographic Experts Group Format
+  description: |
+    A JPEG image file.
+    The `.jpeg` extension is the long form of `.jpg`.
 jpg:
   value: .jpg
   display_name: Joint Photographic Experts Group Format

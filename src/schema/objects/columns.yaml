@@ -990,9 +990,11 @@ annot_id:
   name: annot_id
   display_name: Annotation Identifier
   description: |
-    Unique identifier for a specific annotation set applying to a stimulus or group of stimuli. Links to annotation
-    files (for example, `*_annot-<label>_events.tsv`).
+    Unique identifier for a specific annotation set applying to a stimulus or group of stimuli,
+    equal to the label of the `annot-<label>` entity of the annotation files it describes
+    (for example, `pitch` for `*_annot-pitch_events.tsv`).
   type: string
+  pattern: ^[0-9a-zA-Z+]+$
 copyright:
   name: copyright
   display_name: Stimulus Copyright
