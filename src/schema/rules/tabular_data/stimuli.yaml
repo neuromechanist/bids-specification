@@ -11,14 +11,14 @@ Stimuli:
     - type__stimuli
   columns:
     stimulus_id: required
-    type__stimuli: recommended
+    type__stimuli: required
     URL: optional
-    license: recommended
+    license: required
     copyright: recommended
     description__stimuli: recommended
     HED: optional
     filename__stimuli: optional
-    present: optional
+    present: required
     partDescription__stimuli: optional
   additional_columns: allowed_if_defined
 

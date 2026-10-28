@@ -134,6 +134,14 @@ and a guide for using macros can be found at
 -->
 {{ MACROS___make_columns_table("stimuli.Stimuli") }}
 
+The `type`, `license`, and `present` columns are REQUIRED:
+a stimulus that is not shared has no file from which its type could be inferred,
+the license of each stimulus is stated in `stimuli.tsv`
+so that tools can read it without opening every sidecar,
+and `present` tells readers and validators whether to expect the stimulus file in `/stimuli`.
+The value `n/a` MAY be used for `license`
+when the license is unknown or the stimulus is not licensed for sharing.
+
 ### Example `stimuli.tsv`
 
 ```tsv
@@ -147,7 +155,7 @@ The `stimuli.json` file provides detailed descriptions of the columns in the `st
 
 A stimulus that is not shared SHOULD be listed in `stimuli.tsv`
 with the `present` column set to `false`
-and its license, copyright, URL, and description filled in,
+and its license (or `n/a`), copyright, URL, and description filled in,
 as for `stim-movie01` in the example above.
 
 ### Stimulus-level and file-level metadata (`stimuli.tsv` vs. `stim-<label>_<suffix>.json`)
@@ -177,15 +185,14 @@ Sidecars carry the metadata that a single `stimuli.tsv` row cannot express:
 1.  Descriptive metadata that differs between the parts of one stimulus,
     for example parts that come from different sources, with different URLs or licenses.
 
-A sidecar also keeps the license and provenance next to its file
+A sidecar can also keep the license and provenance next to its file
 when the file is copied to another dataset.
 
 The `license`, `copyright`, `URL`, and `description` columns of `stimuli.tsv`
 correspond to the `License`, `Copyright`, `URL`, and `Description` fields of the sidecar.
 Metadata that applies to the whole stimulus belongs in `stimuli.tsv`.
 A sidecar SHOULD contain the media stream metadata of its files,
-and the `License` and `Copyright` fields are RECOMMENDED in it,
-so that license and provenance travel with the file.
+and MAY repeat the `License` and `Copyright` fields.
 Values given in both files SHOULD agree;
 when they differ, the value in the sidecar applies to the files that the sidecar describes.
 
@@ -194,8 +201,8 @@ when they differ, the value in the sidecar applies to the files that the sidecar
 Annotations of the still images or general description of the stimuli (such as frequency and duration of a beep sound) can be stored in the `stimuli.tsv` as an additional column, or, for annotations specific to a stimulus file, in its `stim-<label>_<suffix>.json` sidecar. Here is an example of how annotations can be stored in the `stimuli.tsv` file for an image from the Natural Scenes Dataset (NSD):
 
 ```tsv
-stimulus_id	type	description	HED	NSD_id	COCO_id
-stim-nsd02951	image	an open market full of people and piles of vegetables	((Item-count, High), Ingestible-object), (Background-view, ((Human, Body, Agent-trait/Adult), Outdoors, Furnishing, Natural-feature/Sky, Urban, Man-made-object))	2951	262145
+stimulus_id	type	license	present	description	HED	NSD_id	COCO_id
+stim-nsd02951	image	n/a	true	an open market full of people and piles of vegetables	((Item-count, High), Ingestible-object), (Background-view, ((Human, Body, Agent-trait/Adult), Outdoors, Furnishing, Natural-feature/Sky, Urban, Man-made-object))	2951	262145
 ```
 
 For time-varying stimuli, such as audio or video,

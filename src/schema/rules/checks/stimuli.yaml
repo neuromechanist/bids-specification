@@ -12,9 +12,9 @@ StimuliTsvForStimId:
     message: |
       The stim_id column is used in an events.tsv file and the dataset has a
       /stimuli directory, but no stimuli.tsv file is present in it.
-      A stimuli.tsv file, even a sparse one listing only the stimulus_id of
-      every stimulus in /stimuli, is RECOMMENDED as the entry point for
-      resolving stim_id references.
+      A stimuli.tsv file listing every stimulus in /stimuli with its REQUIRED
+      columns (stimulus_id, type, license, and present) is RECOMMENDED as the
+      entry point for resolving stim_id references.
     level: warning
   selectors:
     - suffix == "events"
