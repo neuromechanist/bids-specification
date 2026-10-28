@@ -17,7 +17,7 @@ Stimuli:
     copyright: recommended
     description__stimuli: recommended
     HED: optional
-    filename: optional
+    filename__stimuli: optional
     present: optional
     partDescription__stimuli: optional
   additional_columns: allowed_if_defined

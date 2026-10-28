@@ -29,7 +29,8 @@ SubjectStimulusSources:
       description_addendum: |
         For a subject-level stimulus file, `Sources` lists the stimulus files
         in the `/stimuli` directory whose presentation this file records,
-        for example `["bids::stimuli/stim-movie01_audiovideo.mp4"]`.
+        rather than the inputs of a derivative
+        (for example, `["bids::stimuli/stim-movie01_audiovideo.mp4"]`).
 
 AnnotationSources:
   selectors:
@@ -41,5 +42,5 @@ AnnotationSources:
       level_addendum: recommended if more than one stimulus file shares the `stim-<label>` entity
       description_addendum: |
         For a stimulus annotation file, `Sources` lists the stimulus files
-        that the annotations describe,
-        for example `["bids::stimuli/stim-movie01_audiovideo.mp4"]`.
+        that the annotations describe, rather than the inputs of a derivative
+        (for example, `["bids::stimuli/stim-movie01_audiovideo.mp4"]`).
