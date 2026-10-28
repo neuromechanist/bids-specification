@@ -51,6 +51,10 @@ for example the separate audio and video tracks of a movie.
 The `part-<label>` entity MAY be used to split a single stimulus into parts,
 such as the chapters of an audiobook or the segments of a long movie.
 
+Stimuli that differ across participants or presentations are stored
+in the participant's directories instead
+(see [Subject-specific stimulus files](#subject-specific-stimulus-files)).
+
 ### Stimulus File Formats
 
 The following table lists the supported stimulus file formats and their corresponding suffixes. The suffixes are used to identify the type of stimulus file and are appended to the `stim-<label>` prefix in the file name.
@@ -181,13 +185,118 @@ gender	Perceived gender of the face, one row per image
 pitch	Fundamental frequency of the tone over time
 ```
 
+## Subject-specific stimulus files
+
+Some stimuli differ across participants or presentations, for example:
+
+1.  A recording of the stimulus as it was presented to a participant,
+    such as a screen or audio capture made during the session,
+    kept to document the exact timing and appearance of the presentation.
+
+1.  Cooperative or dyadic experiments,
+    where one participant's behavior is another participant's stimulus.
+
+1.  Stimuli generated or personalized for a single participant.
+
+Such files MAY be stored in the participant's data directories,
+next to the recordings they align with,
+using the `stim-<label>` entity:
+
+```Text
+sub-<label>/
+    [ses-<label>/]
+        <datatype>/
+            sub-<label>[_ses-<label>]_task-<label>_stim-<label>[_acq-<label>][_run-<index>][_part-<label>]_<suffix>.<extension>
+            sub-<label>[_ses-<label>]_task-<label>_stim-<label>[_acq-<label>][_run-<index>][_part-<label>]_<suffix>.json
+```
+
+where `<datatype>` is one of `beh`, `eeg`, `emg`, `func`, `ieeg`, `meg`, `motion`, or `nirs`,
+and `<suffix>` and `<extension>` follow the [Stimulus File Formats](#stimulus-file-formats) table.
+
+The `stim-<label>` entity marks the file as a stimulus presented to the participant,
+not as data recorded from them,
+and names the stimulus that was presented.
+A subject-specific stimulus MAY be stored in several files with different suffixes or extensions.
+
+If files with the same `stim-<label>` are stored in the `/stimuli` directory,
+the subject-specific file records the presentation of that stimulus to the participant.
+Its content MAY differ from the file in `/stimuli`,
+for example in timing, resolution, or display artifacts.
+In this case, the `Sources` field of its JSON sidecar SHOULD list the presented files in `/stimuli`,
+using [BIDS URIs](../common-principles.md#bids-uri).
+If no file in `/stimuli` shares the `stim-<label>`,
+the stimulus is specific to the participant.
+Listing subject-specific stimuli in `stimuli.tsv` is OPTIONAL,
+so that the `/stimuli` directory and its annotations remain self-contained and reusable.
+
+As for stimuli in `/stimuli`,
+the `stim_id` column of `events.tsv` files MAY name subject-specific stimuli
+to mark when they were presented.
+
+Subject-specific stimulus files are distinct from `*_stim.tsv.gz` files,
+which store continuously sampled stimulus signals in tabular form
+(see [Physiological recordings](../modality-specific-files/physiological-recordings.md)).
+
+The JSON sidecar of a subject-specific stimulus file SHOULD describe its media streams
+(see the [Media Files appendix](../appendices/media-files.md)).
+The following fields are also defined:
+
+<!-- This block generates a metadata table.
+These tables are defined in
+  src/schema/rules/sidecars
+The definitions of the fields specified in these tables may be found in
+  src/schema/objects/metadata.yaml
+A guide for using macros can be found at
+ https://github.com/bids-standard/bids-specification/blob/master/macros_doc.md
+-->
+{{ MACROS___make_sidecar_table("stimuli.SubjectStimulusSources") }}
+
+### Example: subject-specific stimulus files
+
+```Text
+sub-01/
+    beh/
+        sub-01_task-dyad_events.tsv
+        sub-01_task-dyad_stim-partner_audio.wav
+        sub-01_task-dyad_stim-partner_audio.json
+    func/
+        sub-01_task-movie_run-1_bold.nii.gz
+        sub-01_task-movie_run-1_events.tsv
+        sub-01_task-movie_stim-movie01_run-1_audiovideo.mkv
+        sub-01_task-movie_stim-movie01_run-1_audiovideo.json
+stimuli/
+    stimuli.tsv
+    stimuli.json
+    stim-movie01_audiovideo.mp4
+    stim-movie01_audiovideo.json
+```
+
+Here, `sub-01_task-dyad_stim-partner_audio.wav` is the speech of the participant's partner in a dyadic task,
+which has no counterpart in `/stimuli`,
+and `sub-01_task-movie_stim-movie01_run-1_audiovideo.mkv` is a capture of the movie as it was displayed during the run,
+with the following sidecar:
+
+```JSON
+{
+    "Sources": ["bids::stimuli/stim-movie01_audiovideo.mp4"],
+    "VideoCodec": "h264",
+    "VideoFrameRate": 60,
+    "ImageWidth": 1920,
+    "ImageHeight": 1080,
+    "AudioCodec": "aac",
+    "AudioSampleRate": 48000,
+    "AudioChannelCount": 2,
+    "RecordingDuration": 600.2
+}
+```
+
 ## Referencing Stimulus Identifiers in `events.tsv`
 
 To reference stimulus identifiers in the `events.tsv` file, use the `stim_id` column.
 Each value of the `stim_id` column MUST take the form `stim-<label>`
 and refers to all files (both stimulus and annotation files) that share the same `stim-<label>`.
 Each `stim_id` value SHOULD match the `stimulus_id` of an entry in `stimuli.tsv`
-or the `stim-<label>` of stimulus files in `/stimuli`.
+or the `stim-<label>` of stimulus files in `/stimuli` or in the participant's directories.
 See [Task events](events.md#stimulus-organization) for using `stim_id` together with the `stim_file` column.
 
 Example `events.tsv` file:

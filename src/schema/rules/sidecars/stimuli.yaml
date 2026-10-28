@@ -4,9 +4,37 @@
 
 Stimuli:
   selectors:
+    - datatype == "stimuli"
     - intersects([suffix], ["audio", "video", "audiovideo", "image"])
   fields:
     StimulusLicense: recommended
     Copyright: recommended
     StimulusURL: optional
     Description: optional
+
+SubjectStimulusSources:
+  selectors:
+    - datatype != "stimuli"
+    - intersects([suffix], ["audio", "video", "audiovideo", "image"])
+    - entities.stimulus != null
+  fields:
+    Sources:
+      level: optional
+      level_addendum: recommended if the presented stimulus is stored in the `/stimuli` directory
+      description_addendum: |
+        For a subject-level stimulus file, `Sources` lists the stimulus files
+        in the `/stimuli` directory whose presentation this file records,
+        for example `["bids::stimuli/stim-movie01_audiovideo.mp4"]`.
+
+AnnotationSources:
+  selectors:
+    - suffix == "events"
+    - entities.annotation != null
+  fields:
+    Sources:
+      level: optional
+      level_addendum: recommended if more than one stimulus file shares the `stim-<label>` entity
+      description_addendum: |
+        For a stimulus annotation file, `Sources` lists the stimulus files
+        that the annotations describe,
+        for example `["bids::stimuli/stim-movie01_audiovideo.mp4"]`.

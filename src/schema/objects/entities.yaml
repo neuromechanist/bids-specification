@@ -454,12 +454,17 @@ stimulus:
   name: stim
   display_name: Stimulus
   description: |
-    The `stim-<label>` entity identifies a single stimulus in the `/stimuli`
-    directory. The label is a unique identifier shared by all files that
-    belong to the same stimulus (the stimulus file itself, its JSON metadata,
+    The `stim-<label>` entity identifies a stimulus.
+    In the `/stimuli` directory, the label is shared by all files that
+    belong to the same stimulus (the stimulus files, their JSON metadata,
     and any annotation files), and corresponds to the `stimulus_id` values
     listed in the `stimuli.tsv` file and the `stim_id` values referenced
     in `events.tsv` files.
+    In a subject-level filename, the entity marks the file as a stimulus
+    presented to the participant and names that stimulus.
+
+    This entity is distinct from the `stim` suffix of continuously sampled
+    stimulus signals (`*_stim.tsv.gz`).
   type: string
   format: label
 subject:

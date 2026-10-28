@@ -97,3 +97,63 @@ stimulus_annotations:
     - .tsv
   entities:
     stimulus: required
+
+# Subject-level stimulus files: a stimulus as presented to a participant,
+# stored next to the data it aligns with.
+subject_stimulus_audio:
+  $ref: rules.files.raw.stimuli.stimulus_audio
+  datatypes:
+    - beh
+    - eeg
+    - emg
+    - func
+    - ieeg
+    - meg
+    - motion
+    - nirs
+  entities:
+    $ref: meta.templates.raw.task.entities
+    stimulus: required
+    part: optional
+
+subject_stimulus_image:
+  $ref: rules.files.raw.stimuli.stimulus_image
+  datatypes:
+    - beh
+    - eeg
+    - emg
+    - func
+    - ieeg
+    - meg
+    - motion
+    - nirs
+  entities:
+    $ref: rules.files.raw.stimuli.subject_stimulus_audio.entities
+
+subject_stimulus_video:
+  $ref: rules.files.raw.stimuli.stimulus_video
+  datatypes:
+    - beh
+    - eeg
+    - emg
+    - func
+    - ieeg
+    - meg
+    - motion
+    - nirs
+  entities:
+    $ref: rules.files.raw.stimuli.subject_stimulus_audio.entities
+
+subject_stimulus_audiovideo:
+  $ref: rules.files.raw.stimuli.stimulus_audiovideo
+  datatypes:
+    - beh
+    - eeg
+    - emg
+    - func
+    - ieeg
+    - meg
+    - motion
+    - nirs
+  entities:
+    $ref: rules.files.raw.stimuli.subject_stimulus_audio.entities
