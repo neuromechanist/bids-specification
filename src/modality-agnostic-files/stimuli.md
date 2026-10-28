@@ -83,12 +83,17 @@ A guide for using macros can be found at
 -->
 {{ MACROS___make_sidecar_table("stimuli.Stimuli") }}
 
+In addition to the fields above,
+the media stream fields of the [Media Files appendix](../appendices/media-files.md)
+apply to the sidecar according to the suffix of the stimulus file,
+for example `ImageWidth` and `ImageHeight` for an `image` file.
+These fields are not columns of `stimuli.tsv`.
+
 A `stim-<label>_<suffix>.json` file accompanies a shared stimulus file.
 A stimulus file that cannot be shared, for example because of copyright,
 is described by its row in `stimuli.tsv` instead
 (see [Stimuli Description](#stimuli-description-stimulitsv)).
-See [Stimulus-level and file-level metadata](#stimulus-level-and-file-level-metadata)
-for when to use each file.
+See [Stimulus-level and file-level metadata](#stimulus-level-and-file-level-metadata) for when to use each file.
 
 ### Example `stim-<label>_<suffix>.json`
 
@@ -148,41 +153,46 @@ as for `stim-movie01` in the example above.
 
 ### Stimulus-level and file-level metadata
 
-The `stimuli.tsv` file and the `stim-<label>_<suffix>.json` files can hold the same descriptive information,
-because they describe stimuli at two levels:
-the `license`, `copyright`, `URL`, and `description` columns of `stimuli.tsv`
-correspond to the `License`, `Copyright`, `URL`, and `Description` fields of the sidecar.
+The `stimuli.tsv` file and the `stim-<label>_<suffix>.json` sidecars describe stimuli at two levels.
 
-The `stimuli.tsv` file describes each _stimulus_, with one row per `stimulus_id`.
-It lists all stimuli in a single file that tools and readers can load
-without opening every sidecar,
+The `stimuli.tsv` file describes each _stimulus_, with one row per `stimulus_id`,
+even when the stimulus is stored in several files or parts.
+It lists all stimuli in a single file,
+so that tools and readers can load it without opening every sidecar,
 and it is the only place to describe a stimulus that is not shared.
 
-A `stim-<label>_<suffix>.json` file describes one _stimulus file_.
-It is needed for metadata that a single `stimuli.tsv` row cannot express:
+A `stim-<label>[_part-<label>]_<suffix>.json` sidecar describes the stimulus files that match its name,
+following the [Inheritance Principle](../common-principles.md#the-inheritance-principle):
+a sidecar without `part-<label>` applies to all parts of the stimulus,
+and a sidecar with `part-<label>` applies to that part only.
+Sidecars carry the metadata that a single `stimuli.tsv` row cannot express:
 
 1.  Technical metadata of the media streams,
-    such as the codec, frame rate, or sampling rate
-    (see the [Media Files appendix](../appendices/media-files.md)),
-    which can differ between the files of one stimulus,
-    for example between the audio and video tracks of a movie or between its parts.
+    such as the codec, frame rate, sampling rate, or image size
+    (see the [Media Files appendix](../appendices/media-files.md)).
+    These fields depend on the suffix of the file,
+    so as `stimuli.tsv` columns they would be `n/a` for most rows,
+    and their values can differ between the parts of one stimulus,
+    for example parts of a long movie encoded at different frame rates or resolutions.
 
-1.  Descriptive metadata that differs between the files of one stimulus,
-    for example parts of a stimulus that come from different sources,
-    with different URLs or licenses.
+1.  Descriptive metadata that differs between the parts of one stimulus,
+    for example parts that come from different sources, with different URLs or licenses.
 
-1.  Portability: a stimulus file and its sidecar can be copied to another dataset together,
-    keeping the license and provenance with the file.
+A sidecar also keeps the license and provenance next to its file
+when the file is copied to another dataset.
 
-Metadata that applies to the whole stimulus SHOULD be given in `stimuli.tsv`.
-A `stim-<label>_<suffix>.json` file SHOULD contain the metadata specific to its file,
-and MAY repeat the descriptive fields of the stimulus so that the file remains portable.
-When both files give a value for the same field,
-the value in the `stim-<label>_<suffix>.json` file applies to that file.
+The `license`, `copyright`, `URL`, and `description` columns of `stimuli.tsv`
+correspond to the `License`, `Copyright`, `URL`, and `Description` fields of the sidecar.
+Metadata that applies to the whole stimulus belongs in `stimuli.tsv`.
+A sidecar SHOULD contain the media stream metadata of its files,
+and the `License` and `Copyright` fields are RECOMMENDED in it,
+so that license and provenance travel with the file.
+Values given in both files SHOULD agree;
+when they differ, the value in the sidecar applies to the files that the sidecar describes.
 
 ## Stimulus Annotations
 
-Annotations of the still images or general description of the stimuli (such as frequency and duration of a beep sound) can be stored in the `stimuli.tsv` as an additional column or `stim-<label>_<suffix>.json` as described above. Here is an example of how annotations can be stored in the `stimuli.tsv` file for an image from the Natural Scenes Dataset (NSD):
+Annotations of the still images or general description of the stimuli (such as frequency and duration of a beep sound) can be stored in the `stimuli.tsv` as an additional column, or, for annotations specific to a stimulus file, in its `stim-<label>_<suffix>.json` sidecar. Here is an example of how annotations can be stored in the `stimuli.tsv` file for an image from the Natural Scenes Dataset (NSD):
 
 ```tsv
 stimulus_id	type	description	HED	NSD_id	COCO_id

@@ -218,8 +218,9 @@ filename__stimuli:
   name: filename
   display_name: Stimulus filename
   description: |
-    Path to a file of the stimulus, relative to the `/stimuli` directory
+    Path to the main file of the stimulus, relative to the `/stimuli` directory
     (for example, `stim-face01_image.png`).
+    Further files of the stimulus share its `stim-<label>` entity.
   type: string
   format: stimuli_relative
 group__channel:
@@ -1030,8 +1031,9 @@ partDescription__stimuli:
   name: partDescription
   display_name: Stimulus Part Description
   description: |
-    Free-form text description of a specific part of a stimulus, relevant when the stimulus is split into multiple
-    files using the `part` entity.
+    Free-form text description of how the stimulus is split into multiple files
+    using the `part` entity (for example, the chapters of an audiobook).
+    Metadata of individual parts is given in their `stim-<label>_part-<label>_<suffix>.json` sidecars.
   type: string
 present:
   name: present
