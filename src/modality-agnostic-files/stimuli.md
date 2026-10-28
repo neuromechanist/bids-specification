@@ -87,6 +87,8 @@ A `stim-<label>_<suffix>.json` file accompanies a shared stimulus file.
 A stimulus file that cannot be shared, for example because of copyright,
 is described by its row in `stimuli.tsv` instead
 (see [Stimuli Description](#stimuli-description-stimulitsv)).
+See [Stimulus-level and file-level metadata](#stimulus-level-and-file-level-metadata)
+for when to use each file.
 
 ### Example `stim-<label>_<suffix>.json`
 
@@ -95,7 +97,9 @@ is described by its row in `stimuli.tsv` instead
     "License": "CC-BY-4.0",
     "Copyright": "2023 Lab Name lab@university.edu",
     "URL": "https://example.com/stimuli/face01.png",
-    "Description": "A female face with a neutral expression"
+    "Description": "A female face with a neutral expression",
+    "ImageWidth": 640,
+    "ImageHeight": 480
 }
 ```
 
@@ -141,8 +145,40 @@ A stimulus that is not shared SHOULD be listed in `stimuli.tsv`
 with the `present` column set to `false`
 and its license, copyright, URL, and description filled in,
 as for `stim-movie01` in the example above.
-In the case of conflict between the metadata in the `stimuli.tsv` and `stim-<label>_<suffix>.json` files,
-the metadata in the `stim-<label>_<suffix>.json` file takes precedence.
+
+### Stimulus-level and file-level metadata
+
+The `stimuli.tsv` file and the `stim-<label>_<suffix>.json` files can hold the same descriptive information,
+because they describe stimuli at two levels:
+the `license`, `copyright`, `URL`, and `description` columns of `stimuli.tsv`
+correspond to the `License`, `Copyright`, `URL`, and `Description` fields of the sidecar.
+
+The `stimuli.tsv` file describes each _stimulus_, with one row per `stimulus_id`.
+It lists all stimuli in a single file that tools and readers can load
+without opening every sidecar,
+and it is the only place to describe a stimulus that is not shared.
+
+A `stim-<label>_<suffix>.json` file describes one _stimulus file_.
+It is needed for metadata that a single `stimuli.tsv` row cannot express:
+
+1.  Technical metadata of the media streams,
+    such as the codec, frame rate, or sampling rate
+    (see the [Media Files appendix](../appendices/media-files.md)),
+    which can differ between the files of one stimulus,
+    for example between the audio and video tracks of a movie or between its parts.
+
+1.  Descriptive metadata that differs between the files of one stimulus,
+    for example parts of a stimulus that come from different sources,
+    with different URLs or licenses.
+
+1.  Portability: a stimulus file and its sidecar can be copied to another dataset together,
+    keeping the license and provenance with the file.
+
+Metadata that applies to the whole stimulus SHOULD be given in `stimuli.tsv`.
+A `stim-<label>_<suffix>.json` file SHOULD contain the metadata specific to its file,
+and MAY repeat the descriptive fields of the stimulus so that the file remains portable.
+When both files give a value for the same field,
+the value in the `stim-<label>_<suffix>.json` file applies to that file.
 
 ## Stimulus Annotations
 
