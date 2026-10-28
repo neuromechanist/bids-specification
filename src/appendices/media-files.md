@@ -41,7 +41,7 @@ suffix with appropriate migration tooling
 
 ### Image formats
 
-{{ MACROS___make_extension_table(["jpg", "png", "svg", "webp", "tif", "tiff"]) }}
+{{ MACROS___make_extension_table(["jpg", "jpeg", "png", "svg", "webp", "tif", "tiff"]) }}
 
 When choosing a format, consider the trade-off between file size, data fidelity, openness and prevalence of the format in the domain of application.
 Uncompressed or lossless formats (WAV, PNG, TIFF) preserve full quality

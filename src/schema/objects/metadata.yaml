@@ -4396,7 +4396,9 @@ SubjectArtefactDescription:
 StimulusURL:
   name: URL
   display_name: URL
-  description: Location (origin) for the stimulus file.
+  description: |
+    Location (origin) of the stimulus file itself, not of a directory or collection of files
+    (for example, `"https://example.com/stimuli/face01.png"`).
   type: string
 TablePosition:
   name: TablePosition

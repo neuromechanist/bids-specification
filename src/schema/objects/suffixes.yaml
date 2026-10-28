@@ -509,6 +509,12 @@ angio:
     Magnetic resonance angiography sequences focus on enhancing the contrast of
     blood vessels (generally arteries, but sometimes veins) against other tissue
     types.
+annotations:
+  value: annotations
+  display_name: Stimulus annotations
+  description: |
+    A table listing the annotations of a single stimulus,
+    one row per `annot-<label>` value.
 asl:
   value: asl
   display_name: Arterial Spin Labeling

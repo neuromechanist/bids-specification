@@ -93,6 +93,9 @@ raw:
   stimuli:
     name: stimuli
     level: optional
+    # Contents are specified when /stimuli contains stimuli.tsv; without it the
+    # directory is unrestricted (legacy stim_file usage). Validators implement
+    # that opt-in, which this layout cannot express.
     opaque: false
   subject:
     entity: subject
@@ -163,6 +166,9 @@ derivative:
   stimuli:
     name: stimuli
     level: optional
+    # Contents are specified when /stimuli contains stimuli.tsv; without it the
+    # directory is unrestricted (legacy stim_file usage). Validators implement
+    # that opt-in, which this layout cannot express.
     opaque: false
   subject:
     entity: subject

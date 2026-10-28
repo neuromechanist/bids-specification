@@ -178,12 +178,15 @@ This can be done by using a `/stimuli` directory or by reference to a stimuli da
 ### Stimuli directory
 
 The stimulus files can be added in a `/stimuli` directory
-(under the root directory of the dataset; with optional subdirectories) AND using a
+(under the root directory of the dataset) AND using a
 `stim_file` column in `events.tsv` mentioning which stimulus file was used
-for a given event,
+for a given event.
 
-There are no restrictions on the file formats of the stimuli files,
-but they should be stored in the `/stimuli` directory.
+If the `/stimuli` directory contains a `stimuli.tsv` file,
+it follows the [Stimuli](stimuli.md) specification,
+which defines the file names and formats.
+Otherwise, there are no restrictions on the file formats of the stimuli files,
+and subdirectories MAY be used.
 
 ### Stimuli databases
 
@@ -439,9 +442,13 @@ Reference stimulus identifiers using the `stim_id` column to link events to comp
 {
     "stim_id": {
         "LongName": "Stimulus identifier",
-        "Description": "Unique identifier linking to stimulus files and annotations in /stimuli directory."
+        "Description": "Unique identifier linking to the stimulus files and annotations with the same stim-<label>."
     }
 }
 ```
+
+The `stim_file` and `stim_id` columns MAY both be present in the same `events.tsv` file.
+When both are given for an event, the `stim_file` value SHOULD name a file of the stimulus identified by `stim_id`,
+that is, a file whose `stim-<label>` entity equals the `stim_id` value.
 
 For detailed information on stimulus file organization, metadata, and annotations, see the [Stimuli](./stimuli.md) specification.

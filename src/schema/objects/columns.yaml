@@ -211,6 +211,14 @@ filename:
     Relative paths to files.
   type: string
   format: participant_relative
+filename__stimuli:
+  name: filename
+  display_name: Stimulus filename
+  description: |
+    Path to a file of the stimulus, relative to the `/stimuli` directory
+    (for example, `stim-face01_image.png`).
+  type: string
+  format: stimuli_relative
 group__channel:
   name: group
   display_name: Channel group
@@ -689,12 +697,17 @@ stim_file:
   description: |
     Represents the location of the stimulus file (such as an image, video, or
     audio file) presented at the given onset time.
-    There are no restrictions on the file formats of the stimuli files,
-    but they should be stored in the `/stimuli/` directory
-    (under the root directory of the dataset; with optional subdirectories).
+    The stimulus files should be stored in the `/stimuli/` directory
+    (under the root directory of the dataset).
     The values under the `stim_file` column correspond to a path relative to
     `/stimuli`.
     For example `images/cat03.jpg` will be translated to `/stimuli/images/cat03.jpg`.
+    If the `/stimuli` directory contains a `stimuli.tsv` file,
+    it follows the [Stimuli](SPEC_ROOT/modality-agnostic-files/stimuli.md) specification:
+    its files are stored directly in `/stimuli`, in the formats listed there,
+    and `stim_file` values name those files (for example, `stim-cat03_image.jpg`).
+    Otherwise, there are no restrictions on the file formats of the stimulus files,
+    and subdirectories MAY be used.
   type: string
   format: stimuli_relative
 stim_id:
@@ -702,9 +715,11 @@ stim_id:
   display_name: Stimulus identifier
   description: |
     Represents a unique identifier for the stimulus presented at the given onset
-    time, of the form `stim-<label>`. The `stim_id` is inclusive of the stimulus
-    file(s), annotations related to the stimulus, and the information about the
-    stimulus present in the `stimuli.tsv` file.
+    time, of the form `stim-<label>`. The `stim_id` refers to all files with the
+    same `stim-<label>` entity (stimulus files in the `/stimuli` directory or in
+    the participant's directories, and annotation files in the `/stimuli`
+    directory), and to the information about the stimulus present in the
+    `stimuli.tsv` file.
   type: string
   pattern: ^stim-[0-9a-zA-Z+]+$
 strain:
@@ -990,9 +1005,11 @@ annot_id:
   name: annot_id
   display_name: Annotation Identifier
   description: |
-    Unique identifier for a specific annotation set applying to a stimulus or group of stimuli. Links to annotation
-    files (for example, `*_annot-<label>_events.tsv`).
+    Unique identifier for a specific annotation set applying to a stimulus or group of stimuli,
+    equal to the label of the `annot-<label>` entity of the annotation files it describes
+    (for example, `pitch` for `*_annot-pitch_events.tsv`).
   type: string
+  pattern: ^[0-9a-zA-Z+]+$
 copyright:
   name: copyright
   display_name: Stimulus Copyright
