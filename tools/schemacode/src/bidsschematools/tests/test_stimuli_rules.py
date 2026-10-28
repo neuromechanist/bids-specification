@@ -57,11 +57,37 @@ def test_stimulus_selectors_use_short_entity_names(schema_obj):
     assert "entities.stim == null" in schema_obj.rules.checks.events.EventsMissing.selectors
 
 
+def test_stimulus_check_selectors(schema_obj):
+    """Stimulus checks stay off non-stimulus events and datasets without /stimuli."""
+    stim_presentation = schema_obj.rules.sidecars.events.StimulusPresentation.selectors
+    assert 'datatype != "stimuli"' in stim_presentation
+    stimuli_tsv_missing = schema_obj.rules.checks.stimuli.StimuliTsvForStimId.selectors
+    assert 'exists("stimuli", "dataset") == 1' in stimuli_tsv_missing
+
+
+def test_part_enum_on_mri_rules(schema_obj):
+    """Every non-stimulus rule with a part entity keeps the MRI enum."""
+    mri_parts = ["mag", "phase", "real", "imag"]
+    checked = 0
+    for group in (schema_obj.rules.files.raw, schema_obj.rules.files.deriv):
+        for rule in group.values(level=2):
+            if "part" not in rule.get("entities", {}) or "stimulus" in rule.entities:
+                continue
+            assert list(rule.entities.part.enum) == mri_parts
+            checked += 1
+    # anat, fmap, func, and derivative imaging rules
+    assert checked > 20
+
+
 def test_part_labels(schema_obj, raw_regexes):
     """MRI rules restrict part to complex-signal components; stimulus rules do not."""
     assert "enum" not in schema_obj.objects.entities.part
     assert _matches(raw_regexes, "sub-01/anat/sub-01_part-mag_T1w.nii.gz")
     assert not _matches(raw_regexes, "sub-01/anat/sub-01_part-chapter1_T1w.nii.gz")
+    # Sidecar regexes relax entity levels but keep per-rule enums
+    assert _matches(raw_regexes, "sub-01/anat/sub-01_part-mag_T1w.json")
+    assert not _matches(raw_regexes, "sub-01/anat/sub-01_part-chapter1_T1w.json")
+    assert not _matches(raw_regexes, "sub-01/func/sub-01_task-rest_part-chapter1_bold.json")
     assert _matches(raw_regexes, "stimuli/stim-movie01_part-1_audiovideo.mp4")
     assert _matches(
         raw_regexes,
