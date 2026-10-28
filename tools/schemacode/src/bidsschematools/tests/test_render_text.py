@@ -171,6 +171,21 @@ sub-<label>/
     assert datatype_bases_found < datatype_count
 
 
+def test_make_filename_template_root_datatype(schema_obj):
+    """Root-level datatype directories render at the dataset root when requested."""
+    filename_template = text.make_filename_template(
+        "raw", schema_obj, datatypes=["stimuli"], pdf_format=True
+    )
+    lines = filename_template.split("\n")
+    assert "stimuli/" in lines
+    assert not any(line.startswith("sub-<label>") for line in lines)
+    # Dataset-level tables come from the common rules
+    assert "    stimuli.tsv" in lines
+    assert "    annotations.tsv" in lines
+    assert "    stim-<label>[_part-<label>]_audio.<extension>" in lines
+    assert "    stim-<label>[_part-<label>]_annot-<label>_events.tsv" in lines
+
+
 def test_define_common_principles(schema_obj):
     """Ensure that define_common_principles returns a string."""
     common_principles_str = text.define_common_principles(schema_obj)

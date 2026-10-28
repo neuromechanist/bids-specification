@@ -329,15 +329,18 @@ def make_filename_template(
 
     file_rules = schema.rules.files[dstype]
     # Datatypes stored in named directories at the dataset root (for example, stimuli)
-    # are not subject or session subdirectories, so they are left out of this template
+    # are not subject or session subdirectories; they are rendered at the dataset root,
+    # and only when requested with the datatypes filter
     layout = schema.rules.directories["derivative" if dstype == "deriv" else dstype]
     root_dirs = {layout[key]["name"] for key in layout["root"]["subdirs"] if "name" in layout[key]}
+    requested_root_dirs = root_dirs & set(kwargs.get("datatypes", ()))
     file_groups = {}
     for rule in file_rules.values(level=2):
         for datatype in rule.datatypes:
-            if datatype in root_dirs:
+            if datatype in root_dirs - requested_root_dirs:
                 continue
             file_groups.setdefault(datatype, []).append(rule)
+    root_lines = []
 
     if empty_dirs is None:
         empty_dirs = not placeholders
@@ -465,11 +468,27 @@ def make_filename_template(
                 for extension in sorted(extensions)
             )
 
+        if datatype in root_dirs:
+            # Add the dataset-level tables stored in this directory (for example,
+            # stimuli/stimuli.tsv), then move the whole group to the dataset root
+            stem_lines = [
+                f"\t\t\t{rule.stem}{extension}"
+                for rule in schema.rules.files.common.values(level=2)
+                if "stem" in rule and datatype in rule.get("datatypes", ())
+                for extension in sorted(rule.extensions)
+            ]
+            root_lines.extend(line[2:] for line in group_lines[:1] + stem_lines + group_lines[1:])
+            continue
+
         # If the datatype does not have any files, skip
         if not empty_dirs and len(group_lines) == 1:
             continue
 
         lines.extend(group_lines)
+
+    if root_lines:
+        # Leave out the subject and session directories if no datatype under them is shown
+        lines = (lines if len(lines) > 2 else []) + root_lines
 
     paragraph = "\n".join(lines)
     if pdf_format:
